@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="SkiaSharp" Version="2.88.9"/>
+
+        <PackageReference Include="bblanchon.PDFium.Win32" Version="133.0.6872" Condition="$([MSBuild]::IsOsPlatform('Windows'))"/>
+        <PackageReference Include="bblanchon.PDFium.macOS" Version="133.0.6872" Condition="$([MSBuild]::IsOsPlatform('OSX'))"/>
+        <PackageReference Include="bblanchon.PDFium.Linux" Version="133.0.6872" Condition="$([MSBuild]::IsOsPlatform('Linux'))"/>
+    </ItemGroup>
+</Project>
