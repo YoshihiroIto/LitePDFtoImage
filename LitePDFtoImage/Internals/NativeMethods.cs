@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Buffers;
 
 namespace PDFtoImage.Internals
 {
@@ -252,11 +253,14 @@ namespace PDFtoImage.Internals
 #else
         [Mono.Util.MonoPInvokeCallback]
 #endif
-        private static int FPDF_GetBlock(IntPtr param, uint position, IntPtr buffer, uint size)
+        [SkipLocalsInit]
+        private static unsafe int FPDF_GetBlock(IntPtr param, uint position, IntPtr buffer, uint size)
         {
             var stream = StreamManager.Get(checked((int)param));
             if (stream == null)
                 return 0;
+            
+#if false
             byte[] managedBuffer = new byte[size];
 
             stream.Position = position;
@@ -265,6 +269,27 @@ namespace PDFtoImage.Internals
                 return 0;
 
             Marshal.Copy(managedBuffer, 0, buffer, (int)size);
+#else
+            var bufferPool = size >= 8192 ? ArrayPool<byte>.Shared.Rent((int)size) : null;
+            var managedBuffer = bufferPool is { }
+                ? bufferPool.AsSpan(0, (int)size)
+                : (stackalloc byte[(int)size]);
+            
+            try
+            {
+                stream.Position = position;
+                int read = stream.Read(managedBuffer);
+                if (read != size)
+                    return 0;
+
+                managedBuffer.CopyTo(new Span<byte>((void*)buffer, (int)size));
+            }
+            finally
+            {
+                if (bufferPool is { })
+                    ArrayPool<byte>.Shared.Return(bufferPool);
+            }
+#endif
             return 1;
         }
 
