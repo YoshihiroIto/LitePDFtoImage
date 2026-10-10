@@ -9,8 +9,8 @@
     <ItemGroup>
         <PackageReference Include="SkiaSharp" Version="4.153.1" />
 
-        <PackageReference Include="bblanchon.PDFium.Win32" Version="156.0.8076" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
-        <PackageReference Include="bblanchon.PDFium.macOS" Version="156.0.8076" Condition="$([MSBuild]::IsOsPlatform('OSX'))"/>
-        <PackageReference Include="bblanchon.PDFium.Linux" Version="154.0.8076" Condition="$([MSBuild]::IsOsPlatform('Linux'))"/>
+        <PackageReference Include="bblanchon.PDFium.Win32" Version="157.0.8086" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
+        <PackageReference Include="bblanchon.PDFium.macOS" Version="157.0.8086" Condition="$([MSBuild]::IsOsPlatform('OSX'))"/>
+        <PackageReference Include="bblanchon.PDFium.Linux" Version="157.0.8086" Condition="$([MSBuild]::IsOsPlatform('Linux'))"/>
     </ItemGroup>
 </Project>
