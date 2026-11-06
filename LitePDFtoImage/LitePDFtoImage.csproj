@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="SkiaSharp" Version="4.154.0" />
+        <PackageReference Include="SkiaSharp" Version="4.155.0" />
 
         <PackageReference Include="bblanchon.PDFium.Win32" Version="159.0.8138" Condition="$([MSBuild]::IsOsPlatform('Windows'))" />
         <PackageReference Include="bblanchon.PDFium.macOS" Version="158.0.8138" Condition="$([MSBuild]::IsOsPlatform('OSX'))"/>
